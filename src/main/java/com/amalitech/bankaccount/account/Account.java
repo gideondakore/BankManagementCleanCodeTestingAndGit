@@ -1,5 +1,15 @@
 package com.amalitech.bankaccount.account;
 
-public class Account {
+import com.amalitech.bankaccount.customer.Customer;
+
+abstract class Account {
+    private String accountNumber;
+    private Customer customer;
+    private double balance;
+    private String status;
+
+
+
 
 }
+
