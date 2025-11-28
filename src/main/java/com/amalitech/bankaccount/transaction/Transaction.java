@@ -53,6 +53,11 @@ public class Transaction {
         return timestamp;
     }
 
+    // Setters
+    public void setType(String type){
+        this.type = type;
+    }
+
     //Regular methods
     public void displayTransactionDetails() {
         String details = "TransactionId: " + transactionId + "\nAccount: " + accountNumber + "\nType: " + type + "\nAmount: " + amount + "\nPrevous Balance: \nNew Balance: \nDate/Time";

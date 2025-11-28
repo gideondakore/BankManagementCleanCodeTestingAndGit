@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args){
@@ -35,8 +36,19 @@ public class Main {
 //        IO.println("Date: "+ time);
 //        IO.println("Date Formatter: " + formattedDate);
 
-        ZonedDateTime zonedDateTime = ZonedDateTime.now();
-        IO.println("Zone Data: " + "'" +zonedDateTime.toString() +"'");
+//        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+//        IO.println("Zone Data: " + "'" +zonedDateTime.toString() +"'");
+
+//        ArrayList<String> str = new ArrayList<>();
+//
+//        str.add("mango");
+//        str.add("mango");
+//        str.add("mango");
+//        str.add("apple");
+//        str.add("banana");
+//
+//        IO.println(str.get(1));
+
 
     }
 }

@@ -19,6 +19,7 @@ public class RegularCustomer extends Customer{
     private void setCustomerId(int id){
         String customerId = "" + id;
         this.setCustomerId(customerId);
+        this.setType(CustomerType.REGULAR);
     }
 
     //Other Methods

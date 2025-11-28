@@ -1,6 +1,7 @@
 package com.amalitech.bankaccount.account;
 
 import com.amalitech.bankaccount.customer.Customer;
+import com.amalitech.bankaccount.enums.AccountType;
 import com.amalitech.bankaccount.interfaces.DisplayCustomerDetailsAndGetCustomerType;
 
 
@@ -10,6 +11,7 @@ public abstract class Account implements DisplayCustomerDetailsAndGetCustomerTyp
     private double balance;
     private String status;
     static int accountCounter;
+    private AccountType type;
 
     protected Account(Customer customer){
         this.customer = customer;
@@ -35,6 +37,10 @@ public abstract class Account implements DisplayCustomerDetailsAndGetCustomerTyp
         return this.status;
     }
 
+    public AccountType getType(){
+        return type;
+    }
+
     // Setters
     public void setAccountBalance(double balance){
         this.balance = balance;
@@ -44,12 +50,16 @@ public abstract class Account implements DisplayCustomerDetailsAndGetCustomerTyp
         this.status = status;
     }
 
+    public void setType(AccountType accType){
+        this.type = accType;
+    }
+
 
     // Abstract methods
 
 
     // Regular methods
-      public double deposit(double amount) throws IllegalArgumentException {
+    public double deposit(double amount) throws IllegalArgumentException {
           if(amount <= 0){
               throw new IllegalArgumentException("Amount must be greater than zero");
           }

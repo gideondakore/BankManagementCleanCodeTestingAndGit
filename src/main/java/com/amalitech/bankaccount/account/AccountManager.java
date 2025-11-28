@@ -38,10 +38,26 @@ public class AccountManager {
 
     public void viewAllAccounts(){
         if(this.account.isEmpty()){
-            IO.println("No account created");
+            IO.println("""
+                    -------------------------------------------
+                    No account account created yet.
+                    -------------------------------------------
+                    """);
+            return;
         }
 
         StringBuilder stringBuilder = new StringBuilder();
+
+        String heading = """
+                %s            |
+                %s            |
+                %s            |
+                %s            |
+                %s            |
+                """.formatted("ACC N0", "CUSTOMER NAME", "TYPE", "BALANCE", "STATUS");
+
+        stringBuilder.append(heading);
+
         for(Account acc: this.account){
             Customer customer = acc.getAccountCustomer();
             String str = """

@@ -10,6 +10,7 @@ public class PremiumCustomer extends Customer{
         super(name, age, contact, address);
         ++customerCounter;
         this.setCustomerId(customerCounter);
+        this.setType(CustomerType.PREMIUM);
     }
 
     //Getters

@@ -1,10 +1,10 @@
 package com.amalitech.bankaccount.account;
 
 import com.amalitech.bankaccount.customer.Customer;
-import com.amalitech.bankaccount.enums.CustomerType;
+import com.amalitech.bankaccount.enums.AccountType;
 
 public class SavingsAccount extends Account{
-    static final String CUSTOMER_TYPE = CustomerType.SAVINGS.getDescription();
+    static final String CUSTOMER_TYPE = AccountType.SAVINGS.getDescription();
     private double interestRate;
     private double minimumBalance;
 
@@ -13,7 +13,7 @@ public class SavingsAccount extends Account{
         super(customer);
         this.interestRate = 0.035;
         this.minimumBalance = 500;
-
+        this.setType(AccountType.SAVINGS);
     }
 
     public double calculateInterest(){

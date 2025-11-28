@@ -1,7 +1,7 @@
 package com.amalitech.bankaccount.account;
 
 import com.amalitech.bankaccount.customer.Customer;
-import com.amalitech.bankaccount.enums.CustomerType;
+import com.amalitech.bankaccount.enums.AccountType;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 public class CheckingAccount extends Account{
     private double overdraftLimit;
     private double monthlyFee;
-    private static final String CUSTOMER_TYPE = CustomerType.CHECKING.getDescription();
+    private static final String CUSTOMER_TYPE = AccountType.CHECKING.getDescription();
     private LocalDate createdAt = LocalDate.now();
 
 
@@ -17,6 +17,7 @@ public class CheckingAccount extends Account{
         super(customer);
         overdraftLimit = 1000;
         monthlyFee = 10;
+        this.setType(AccountType.CHECKING);
     }
 
 

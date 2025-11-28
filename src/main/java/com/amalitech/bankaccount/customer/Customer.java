@@ -1,5 +1,6 @@
 package com.amalitech.bankaccount.customer;
 
+import com.amalitech.bankaccount.enums.CustomerType;
 import com.amalitech.bankaccount.interfaces.DisplayCustomerDetailsAndGetCustomerType;
 
 public abstract class Customer implements DisplayCustomerDetailsAndGetCustomerType {
@@ -10,6 +11,7 @@ public abstract class Customer implements DisplayCustomerDetailsAndGetCustomerTy
     private String contact;
     private String address;
     static int customerCounter;
+    private CustomerType type;
 
 
     protected Customer(String name, int age, String contact, String address){
@@ -42,6 +44,10 @@ public abstract class Customer implements DisplayCustomerDetailsAndGetCustomerTy
         return age;
     }
 
+    public CustomerType getType(){
+        return this.type;
+    }
+
     // Setters
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
@@ -61,6 +67,10 @@ public abstract class Customer implements DisplayCustomerDetailsAndGetCustomerTy
 
     public void setCustomerAge(int age) {
         this.age = age;
+    }
+
+    public void setType(CustomerType customerType){
+        this.type = customerType;
     }
 }
 
