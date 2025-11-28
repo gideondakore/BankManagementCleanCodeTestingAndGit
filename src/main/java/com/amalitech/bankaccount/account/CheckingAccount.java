@@ -26,6 +26,13 @@ public class CheckingAccount extends Account{
             throw new IllegalArgumentException("Amount must be greater than zero");
         }
 
+        // apply monthly fess before withdrawal
+        this.applyMonthlyFee();
+
+        if((this.getAccountBalance() - amount) < -overdraftLimit){
+            throw new IllegalArgumentException("You have reach your overdraft limit.");
+        }
+
         if((this.getAccountBalance() - amount) < 0){
             throw new IllegalArgumentException("You have insufficient amount.");
         }
@@ -48,6 +55,7 @@ public class CheckingAccount extends Account{
 
     @Override
     public void displayCustomerDetails() {
+        this.applyMonthlyFee();
         String customerDetails = "Account Number: " + this.getAccountNumber() + "\n" + "Customer: " + this.getAccountCustomer().getName();
         IO.println(customerDetails);
     }
