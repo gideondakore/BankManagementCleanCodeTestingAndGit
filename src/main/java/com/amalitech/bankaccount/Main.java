@@ -27,6 +27,8 @@ public class Main {
                     contact = customerRecords.contact();
                     address = customerRecords.address();
 
+                    IO.println("Name:");
+
                 }
             }
         }
