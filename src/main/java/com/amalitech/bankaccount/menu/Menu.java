@@ -1,12 +1,14 @@
 package com.amalitech.bankaccount.menu;
 
 
+import com.amalitech.bankaccount.records.CustomerRecords;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Menu {
     int choice;
-
     public void intro() {
 
         String introFormattedStr = """
@@ -40,6 +42,7 @@ public class Menu {
         }
     }
 
+
     public void setChoice(int choice) {
         this.choice = choice;
     }
@@ -59,6 +62,40 @@ public class Menu {
         }
 
         return input;
+
+
+    }
+
+    public CustomerRecords receiveCreateAccount() {
+        String name;
+        int age;
+        String contact;
+        String address;
+
+
+        Scanner scanner = new Scanner(System.in);
+
+            IO.print("Enter customer name: ");
+            name = scanner.next();
+
+            IO.print("Enter customer age: ");
+            age = scanner.nextInt();
+
+            Pattern contactPattern = Pattern.compile("\\+\\d{1,3}-\\d{3}-\\d{4}");
+            while (true){
+                IO.print("Enter customer contact (+1-555-7890): ");
+                if(scanner.hasNext(contactPattern)){
+                    contact = scanner.next();
+                    break;
+                }else{
+                    scanner.next();
+                }
+            }
+
+            IO.print("Enter customer address: ");
+            address = scanner.next();
+
+            return new CustomerRecords(name, age, contact, address);
 
 
     }
