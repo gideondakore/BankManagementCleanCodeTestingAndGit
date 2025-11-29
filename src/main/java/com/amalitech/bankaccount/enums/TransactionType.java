@@ -6,7 +6,7 @@ public enum TransactionType {
 
     private final String description;
 
-    private TransactionType(String description) {this.description = description;}
+    TransactionType(String description) {this.description = description;}
 
     public String getDescription(){
         return this.description;

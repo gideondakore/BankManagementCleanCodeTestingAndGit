@@ -19,6 +19,8 @@ public abstract class Customer implements DisplayCustomerDetailsAndGetCustomerTy
         this.age = age;
         this.contact = contact;
         this.address = address;
+        ++customerCounter;
+        this.customerId = String.valueOf(customerCounter);
     }
 
 

@@ -4,10 +4,8 @@ import com.amalitech.bankaccount.customer.Customer;
 import com.amalitech.bankaccount.enums.AccountType;
 
 public class SavingsAccount extends Account{
-    static final String CUSTOMER_TYPE = AccountType.SAVINGS.getDescription();
-    private double interestRate;
-    private double minimumBalance;
-
+    private final double interestRate;
+    private final double minimumBalance;
 
     public SavingsAccount(Customer customer){
         super(customer);
@@ -18,6 +16,14 @@ public class SavingsAccount extends Account{
 
     public double calculateInterest(){
         return this.getAccountBalance() * interestRate;
+    }
+
+    public double getInterestRate(){
+        return interestRate;
+    }
+
+    public double getMinimumBalance(){
+        return minimumBalance;
     }
 
     @Override
@@ -41,12 +47,5 @@ public class SavingsAccount extends Account{
         String customerDetails = "Account Number: " + this.getAccountNumber() + "\n" + "Customer: " + this.getAccountCustomer().getName();
         IO.println(customerDetails);
     }
-
-
-    @Override
-    public String getCustomerType() {
-        return CUSTOMER_TYPE;
-    }
-
 
 }

@@ -9,8 +9,8 @@ import java.time.temporal.ChronoUnit;
 public class CheckingAccount extends Account{
     private double overdraftLimit;
     private double monthlyFee;
-    private static final String CUSTOMER_TYPE = AccountType.CHECKING.getDescription();
     private LocalDate createdAt = LocalDate.now();
+
 
 
     public  CheckingAccount(Customer customer){
@@ -43,6 +43,7 @@ public class CheckingAccount extends Account{
         return this.getAccountBalance();
     }
 
+
     private void applyMonthlyFee(){
         LocalDate currentDate = LocalDate.now();
         long days = ChronoUnit.DAYS.between(createdAt, currentDate);
@@ -62,8 +63,5 @@ public class CheckingAccount extends Account{
     }
 
 
-    @Override
-    public String getCustomerType() {
-        return CUSTOMER_TYPE;
-    }
+
 }

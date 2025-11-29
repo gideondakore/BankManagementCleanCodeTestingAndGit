@@ -66,7 +66,7 @@ public class AccountManager {
                     %s            |
                     %s            |
                     %s
-                    """.formatted(acc.getAccountNumber(), customer.getName(), customer.getCustomerType(), acc.getAccountBalance(), acc.getAccountStatus());
+                    """.formatted(acc.getAccountNumber(), customer.getName(), customer.getType().getDescription(), acc.getAccountBalance(), acc.getAccountStatus());
 
             stringBuilder.append(str).append("\n");
         }

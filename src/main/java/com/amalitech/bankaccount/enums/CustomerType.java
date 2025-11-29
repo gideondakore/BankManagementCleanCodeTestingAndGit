@@ -7,7 +7,7 @@ public enum CustomerType {
 
     private final String description;
 
-    private CustomerType(String description){
+    CustomerType(String description){
         this.description = description;
     }
 
