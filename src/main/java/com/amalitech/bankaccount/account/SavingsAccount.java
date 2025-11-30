@@ -39,13 +39,21 @@ public class SavingsAccount extends Account{
             throw new IllegalArgumentException("Amount must be greater than zero");
         }
 
-
         if((this.getAccountBalance() - amount) < 0 || (this.getAccountBalance() - amount) < minimumBalance){
             throw new IllegalArgumentException("You have insufficient amount.");
         }
 
         super.withdrawal(amount);
 
+    }
+
+    @Override
+    public void deposit(double amount) throws IllegalArgumentException{
+        if(amount <= 0){
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
+
+        super.deposit(amount);
     }
 
     @Override

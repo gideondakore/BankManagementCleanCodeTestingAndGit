@@ -41,7 +41,7 @@ public class CheckingAccount extends Account{
 
     @Override
     public void withdrawal(double amount) throws IllegalArgumentException{
-        if(amount < 0){
+        if(amount <= 0){
             throw new IllegalArgumentException("Amount must be greater than zero");
         }
 
@@ -49,15 +49,10 @@ public class CheckingAccount extends Account{
         this.applyMonthlyFee();
 
         if((this.getAccountBalance() - amount) < -overdraftLimit){
-            throw new IllegalArgumentException("You have reach your overdraft limit.");
-        }
-
-        if((this.getAccountBalance() - amount) < 0){
-            throw new IllegalArgumentException("You have insufficient amount.");
+            throw new IllegalArgumentException("The transaction will exceed your overdraft limit of $" + overdraftLimit);
         }
 
         super.withdrawal(amount);
-
     }
 
 

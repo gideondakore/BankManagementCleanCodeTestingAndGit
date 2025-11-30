@@ -122,35 +122,25 @@ public class Menu {
                 """);
 
         String accNumber;
-        Account selectedAcc = null;
+        Account selectedAcc;
         TransactionType transactionType;
         double transactionAmount;
         char yesOrNo;
 
-        while (true){
+        do {
             accNumber = new InputValidationHelper("Enter Account Number: ", """
-                Please provide a valid account number!
-                
-                Example format:
-                ACC001
-                ACC002
-                ACC0010
-                ACC00120
-                """, "^ACC00\\d+$").validatedStringInputValue();
+                    Please provide a valid account number!
+                    
+                    Example format:
+                    ACC001
+                    ACC002
+                    ACC0010
+                    ACC00120
+                    """, "^ACC00\\d+$").validatedStringInputValue();
 
-            for(Account acc: account){
-                if(acc.getAccountNumber().equals(accNumber)){
-                    selectedAcc = acc;
-                    break;
-                }
-            }
+            selectedAcc = this.getAccountForTransaction(account, accNumber);
 
-            if(selectedAcc == null){
-                IO.println("Account with the account number " + accNumber + " not found! Please check your account number and try again.");
-            }else{
-                break;
-            }
-        }
+        } while (selectedAcc == null);
 
 
         IO.println("""
@@ -163,45 +153,30 @@ public class Menu {
 
         transactionType = this.transactionType();
 
+        boolean done = false;
 
-        while (true){
+        while (!done){
 
             transactionAmount = this.acceptDoubleInputValue("Enter amount: $", "Please provide a valid amount");
 
+
             new TransactionManager().previewTransactionConfirmation(selectedAcc, transactionType, transactionAmount);
 
-            while(true){
-                yesOrNo = new InputValidationHelper("Confirm transaction? (Y/N): ", "Please select (Y for Yes) or (N for No)", "^[YN]$").validatedCharInputValue();
+            yesOrNo = this.promptValidYesOrNo();
 
-                if((yesOrNo != 'Y') && (yesOrNo != 'N')){
-                    IO.println("Wrong input provided. Select (Y for Yes) or (N for No)");
-                }else break;
-            }
-
-            if(yesOrNo == 'Y'){
-                try{
-
-                if(transactionType == TransactionType.DEPOSIT) {
-                        selectedAcc.deposit(transactionAmount);
-                        new Transaction(selectedAcc.getAccountNumber(), transactionAmount, selectedAcc.getAccountBalance() + transactionAmount);
-
-                } else {
-                    selectedAcc.withdrawal(transactionAmount);
-                    new Transaction(selectedAcc.getAccountNumber(), transactionAmount, selectedAcc.getAccountBalance() - transactionAmount);
-                }
-
-                IO.println("✔ Transaction completed successfully!");
-                break;
-
-                }catch (IllegalArgumentException err){
-                    IO.println(err.getMessage());
-                }
-
-            }else{
+            if(yesOrNo == 'N') {
                 IO.println("❌ Transaction unsuccessful!");
-                break;
+                done = true;
             }
 
+            try{
+
+            this.makeTransaction(selectedAcc, transactionAmount, transactionType);
+            IO.println("✔ Transaction completed successfully!");
+            done = true;
+            }catch (IllegalArgumentException err){
+                IO.println(err.getMessage());
+            }
         }
     }
 
@@ -257,15 +232,17 @@ public class Menu {
         return TransactionType.WITHDRAWAL;
     }
 
-    public int acceptInterInputValue(String msg, String errMsg){
-        int input;
-       input = new InputValidationHelper(msg, errMsg, "").validatedIntInputPositiveValue();
-       return input;
-    }
 
     public double acceptDoubleInputValue(String msg, String errMsg){
         double input;
-        input = new InputValidationHelper(msg, errMsg, "").validatedDoubleInputPositiveValue();
+
+        while (true){
+            input = new InputValidationHelper(msg, errMsg, "").validatedDoubleInputPositiveValue();
+            if(input > 0){
+                break;
+            }else IO.println("Amount must be greater than zero!");
+        }
+
         return input;
     }
 
@@ -278,6 +255,51 @@ public class Menu {
             }
 
             scanner.nextLine();
+    }
+
+    public Account getAccountForTransaction(List<Account> account, String accNum){
+        Account selectedAcc = null;
+
+        for(Account acc: account){
+            if(acc.getAccountNumber().equals(accNum)){
+                selectedAcc = acc;
+                break;
+            }
+        }
+
+        if(selectedAcc == null){
+            IO.println("Account with the account number " + accNum + " not found! Please check your account number and try again.");
+            return null;
+        }
+
+        return selectedAcc;
+
+    }
+
+    public void makeTransaction(Account account, double transactionAmount, TransactionType transactionType) throws IllegalArgumentException{
+        if(transactionType == TransactionType.DEPOSIT) {
+            account.deposit(transactionAmount);
+            new Transaction(account.getAccountNumber(), transactionAmount, account.getAccountBalance() + transactionAmount);
+
+        } else {
+            account.withdrawal(transactionAmount);
+            new Transaction(account.getAccountNumber(), transactionAmount, account.getAccountBalance() - transactionAmount);
+        }
+    }
+
+    public char promptValidYesOrNo(){
+        char yesOrNo;
+        while(true){
+            yesOrNo = new InputValidationHelper("Confirm transaction? (Y/N): ", "Please select (Y for Yes) or (N for No)", "^[YN]$").validatedCharInputValue();
+
+            if((yesOrNo != 'Y') && (yesOrNo != 'N')){
+                IO.println("Wrong input provided. Select (Y for Yes) or (N for No)");
+            }else break;
+
+        }
+
+        return yesOrNo;
+
     }
 
 }

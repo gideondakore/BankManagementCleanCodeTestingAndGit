@@ -65,9 +65,6 @@ public abstract class Account implements DisplayCustomerDetailsAndGetCustomerTyp
 
     // Regular methods
     public void deposit(double amount) throws IllegalArgumentException {
-          if(amount <= 0){
-              throw new IllegalArgumentException("Amount must be greater than zero");
-          }
 
           this.balance += amount;
       }
