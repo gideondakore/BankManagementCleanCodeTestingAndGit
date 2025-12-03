@@ -17,7 +17,8 @@ public class Main {
 
     public static void main(String[] args) {
         Menu menu = new Menu();
-        AccountManager accountManager = new AccountManager();
+        Account[] mockAccounts = Main.populateWithCustomAccount();
+        AccountManager accountManager = new AccountManager(mockAccounts);
         TransactionManager transactionManager = new TransactionManager();
 
 
@@ -61,7 +62,7 @@ public class Main {
         Account account = createAccountByType(customer, accountType);
 
         account.deposit(initialDeposit);
-        account.displayCustomerDetails();
+        account.displayAccountDetails();
 
         accountManager.addAccount(account);
     }
@@ -99,6 +100,17 @@ public class Main {
         return (type == AccountType.SAVINGS)
                 ? new SavingsAccount(customer)
                 : new CheckingAccount(customer);
+    }
+
+    private static Account[] populateWithCustomAccount (){
+        Account acc1 = new SavingsAccount(new PremiumCustomer("John Smith", 23, "+1-415-782-9364", "123 Main Street, United State")).deposit(5250);
+        Account acc2 = new CheckingAccount(new PremiumCustomer("Sarah Johnson", 21, "+44-207-9463821", "45 Oak Ave., Apt. 2B, United Kingdom")).deposit(3450);
+        Account acc3 = new SavingsAccount(new RegularCustomer("Michael Chen", 19, "+49-301-2345678", "12-34 Park Lane")).deposit(15750);
+        Account acc4 = new CheckingAccount(new RegularCustomer("Emily Brown", 22, "+33-142-869753", "12-34 Park Lane, Germany")).deposit(890);
+        Account acc5 = new SavingsAccount(new RegularCustomer("David Wilson", 28, "+61-298-765432", "P.O. Box 234 - Australia")).deposit(25300);
+
+        return new Account[]{acc1, acc2, acc3, acc4, acc5};
+
     }
 
 }

@@ -15,9 +15,14 @@ public class CheckingAccount extends Account{
 
     public  CheckingAccount(Customer customer){
         super(customer);
+        IO.println("================CHECKING ACCOUNT==============");
+        customer.displayCustomerDetails();
+
         overdraftLimit = 1000;
         monthlyFee = 10;
         this.setType(AccountType.CHECKING);
+
+        IO.println("ACCOUNT ID; " + this.getAccountNumber());
     }
 
     public double getOverdraftLimit() {
@@ -34,9 +39,9 @@ public class CheckingAccount extends Account{
 
     public String viewAllAccounts(Customer customer){
         return """
-                %s            |  %s             |  %s           |  %s           |  %s
-                              |  Overdraft Limit: $%,.2f         | Monthly Fee: $%,.2f
-                """.formatted(this.getAccountNumber(), customer.getName(), this.getType().getDescription(), this.getAccountBalance(), this.getAccountStatus(), this.overdraftLimit, this.monthlyFee);
+                %-8s            |  %-25s             |  %-8s           |  $%,-5.2f           |  %-5s
+                %-8s            |  Overdraft Limit: $%-8.2f %-10s |  Monthly Fee: $%-9.2f
+                """.formatted(this.getAccountNumber(), customer.getName(), this.getType().getDescription(), this.getAccountBalance(), this.getAccountStatus(), "", this.overdraftLimit, "", this.monthlyFee);
     }
 
     @Override
@@ -68,7 +73,7 @@ public class CheckingAccount extends Account{
 
 
     @Override
-    public void displayCustomerDetails() {
+    public void displayAccountDetails() {
         Customer customer = this.getCustomer();
         IO.println("""
                     
@@ -76,8 +81,8 @@ public class CheckingAccount extends Account{
                     Account Number: %s
                     Customer: %s (%s)
                     Account Type: %s
-                    Initial Balance: %,.2f
-                    Overdraft Limit: %,.2f
+                    Initial Balance: $%,.2f
+                    Overdraft Limit: $%,.2f
                     Monthly Fee: $%,.2f
                     Status: %s
                     """.formatted(

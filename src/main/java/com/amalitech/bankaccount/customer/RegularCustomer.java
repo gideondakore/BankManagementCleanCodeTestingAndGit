@@ -12,12 +12,6 @@ public class RegularCustomer extends Customer{
 
     public RegularCustomer(String name, int age, String contact, String address){
         super(name, age, contact, address);
-        this.setCustomerId(customerCounter);
-    }
-
-    private void setCustomerId(int id){
-        String customerId = "" + id;
-        this.setCustomerId(customerId);
         this.setType(CustomerType.REGULAR);
     }
 

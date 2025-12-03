@@ -28,9 +28,9 @@ public class SavingsAccount extends Account{
 
     public String viewAllAccounts(Customer customer){
         return """
-                %s            |  %s             |  %s           |  %s           |  %s
-                              |  Interest Rate: %,.1f%%          | Min Balance: %,.2f
-                """.formatted(this.getAccountNumber(), customer.getName(), this.getType().getDescription(), this.getAccountBalance(), this.getAccountStatus(), this.interestRate * 100, this.minimumBalance);
+                %-8s            |  %-25s             |  %-8s           |  $%,-5.2f           |  %-5s
+                %-8s            | Interest Rate: %.1f%% %-18s |  Min Balance: $%.2f
+                """.formatted(this.getAccountNumber(), customer.getName(), this.getType().getDescription(), this.getAccountBalance(), this.getAccountStatus(), "", this.interestRate * 100, "", this.minimumBalance);
     }
 
     @Override
@@ -48,16 +48,18 @@ public class SavingsAccount extends Account{
     }
 
     @Override
-    public void deposit(double amount) throws IllegalArgumentException{
+    public Account deposit(double amount) throws IllegalArgumentException{
         if(amount <= 0){
             throw new IllegalArgumentException("Amount must be greater than zero");
         }
 
         super.deposit(amount);
+
+        return this;
     }
 
     @Override
-    public void displayCustomerDetails() {
+    public void displayAccountDetails() {
         Customer customer = this.getCustomer();
                 IO.println("""
                     
@@ -65,7 +67,7 @@ public class SavingsAccount extends Account{
                     Account Number: %s
                     Customer: %s (%s)
                     Account Type: %s
-                    Initial Balance: %,.2f
+                    Initial Balance: $%,.2f
                     Interest Rate: %,.2f%%
                     Minimum Balance: $%,.2f
                     Status: %s

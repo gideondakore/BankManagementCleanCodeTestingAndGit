@@ -46,8 +46,7 @@ public class AccountManager {
             return;
         }
 
-        int viewFiveAccount = 0;
-        final int numOfAllowViews = 5;
+        int numAccounts = 0;
         double totalBalance = 0.0;
 
         String line = "--------------------------------------------------------------------------------------------------------------";
@@ -56,7 +55,7 @@ public class AccountManager {
 
         String heading = """
                 %s
-                %s            |  %s             |  %s           |  %s           |  %s
+                %-8s            |  %-25s             |  %-8s           |  %-5s           |  %-5s
                 %s
                 """.formatted(line, "ACC N0", "CUSTOMER NAME", "TYPE", "BALANCE", "STATUS", line);
 
@@ -66,18 +65,17 @@ public class AccountManager {
 
 
         for(Account acc: this.account){
-            // View only five account
-            if(viewFiveAccount >= numOfAllowViews) break;
 
             stringBuilder.append(acc.viewAllAccounts(acc.getAccountCustomer())).append("\n").append(line).append("\n");
             totalBalance += acc.getAccountBalance();
 
-            viewFiveAccount++;
+            numAccounts++;
+
         }
 
         IO.println(stringBuilder.toString());
-        IO.println("Total Account: " + viewFiveAccount);
-        IO.println("Total Account Balance: $" + totalBalance);
+        IO.println("Total Account: " + numAccounts);
+        IO.println("Total Account Balance: $%,.2f".formatted(totalBalance));
     }
 
     public double getTotalBalance(){

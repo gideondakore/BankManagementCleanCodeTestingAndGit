@@ -20,7 +20,7 @@ public abstract class Customer implements DisplayCustomerDetails {
         this.contact = contact;
         this.address = address;
         ++customerCounter;
-        this.customerId = String.valueOf(customerCounter);
+        this.customerId = "CUS00" + customerCounter;
     }
 
 

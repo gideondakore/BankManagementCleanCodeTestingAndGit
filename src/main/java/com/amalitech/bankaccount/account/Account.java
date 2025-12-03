@@ -15,9 +15,9 @@ public abstract class Account implements DisplayAccountDetails {
 
     protected Account(Customer customer){
         this.customer = customer;
-        this.accountNumber = "ACC00" + customer.getCustomerId();
+        ++accountCounter;
+        this.accountNumber = "ACC00" + accountCounter;
         this.status = "Active";
-        accountCounter++;
     }
 
     // Getters
@@ -64,9 +64,11 @@ public abstract class Account implements DisplayAccountDetails {
 
 
     // Regular methods
-    public void deposit(double amount) throws IllegalArgumentException {
+    public Account deposit(double amount) throws IllegalArgumentException {
 
           this.balance += amount;
+
+          return this;
       }
 
     public void withdrawal(double amount) throws IllegalArgumentException {

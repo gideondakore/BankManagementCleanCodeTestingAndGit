@@ -26,7 +26,7 @@ public class TransactionManager {
 
     public void previewTransactionConfirmation(Account account, TransactionType transactionType, double transactionAmount){
 
-        String txnID = String.valueOf(Transaction.transactionCounter);
+        String txnID = String.valueOf(Transaction.transactionCounter + 1);
         double newBalance = transactionType == TransactionType.DEPOSIT ? account.getAccountBalance() + transactionAmount : account.getAccountBalance() - transactionAmount;
 
         IO.println("""
@@ -65,7 +65,7 @@ public class TransactionManager {
         String heading = """
                 TRANSACTION HISTORY
                 --------------------------------------------------------------------------------------------------------
-                %s              | %s                | %s                | %s                | %s
+                %-8s              | %-15s                | %-6s                | %-10s                | %-15s
                 --------------------------------------------------------------------------------------------------------
                 """.formatted("TXN ID", "DATE/TIME", "TYPE", "AMOUNT", "BALANCE");
 
@@ -74,11 +74,11 @@ public class TransactionManager {
 
 
         String negSigned = """
-                    %s              | %s                | %s                | -$%,.2f                | %,.2f
+                    %-8s              | %-15s                | %-6s                | -$%-10.2f                | %-15.2f
                    """;
 
         String posSigned = """
-                    %s              | %s                | %s                | +$%,.2f                | %,.2f
+                    %-8s              | %-15s                | %-6s                | +$%-10.2f                | %-15.2f
                    """;
 
 
