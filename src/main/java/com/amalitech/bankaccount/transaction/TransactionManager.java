@@ -16,18 +16,24 @@ public class TransactionManager {
     private int transactionCount;
     static int transactionCounter;
 
+
+    public static void updateCounter(){
+        transactionCounter++;
+    }
+
     public void addTransaction(Transaction transaction){
         this.transactions.add(transaction);
-        transactionCounter++;
+        TransactionManager.updateCounter();
     }
 
     public List<Transaction> getTransactions(){
         return  this.transactions;
     }
 
-    public void previewTransactionConfirmation(Account account, TransactionType transactionType, double transactionAmount){
+    public void previewTransactionConfirmation(Account account, TransactionType transactionType, double transactionAmount, TransactionManager transactionManager, String accNumber){
+        List<Transaction> newTransactions = getAllTransactions(accNumber, transactionManager.getTransactions());
 
-        String txnID = String.valueOf(Transaction.transactionCounter + 1);
+        String txnID = String.valueOf(newTransactions.size() + 1);
         double newBalance = transactionType == TransactionType.DEPOSIT ? account.getAccountBalance() + transactionAmount : account.getAccountBalance() - transactionAmount;
 
         IO.println("""
@@ -173,7 +179,7 @@ public class TransactionManager {
         return transactionCount;
     }
 
-    public List<Transaction> getAllTransactions(String accNumber, List<Transaction> transactions){
+    public static List<Transaction> getAllTransactions(String accNumber, List<Transaction> transactions){
 
         ArrayList<Transaction> transactions1 = new ArrayList<>();
 

@@ -1,15 +1,12 @@
 package com.amalitech.bankaccount.transaction;
 
-import com.amalitech.bankaccount.enums.TransactionType;
 import com.amalitech.bankaccount.enums.TransferToOrFromType;
-import com.amalitech.bankaccount.interfaces.Transactable;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction{
-    static int transactionCounter;
+    private int transactionCounter;
     private String transactionId;
     private String accountNumber;
     private String type;
@@ -31,7 +28,7 @@ public class Transaction{
         generateTimeStamp();
     }
 
-    private void generateTransactionId(int counter){
+    public void generateTransactionId(int counter){
         this.transactionId = "TXN00" + counter;
     }
 
@@ -75,6 +72,10 @@ public class Transaction{
         return transferToOrFrom;
     }
 
+    public int getTransactionCounter(){
+        return transactionCounter;
+    }
+
 
     // Setters
     public void setType(String type){
@@ -83,6 +84,10 @@ public class Transaction{
 
     public void setTransferToOrFrom(TransferToOrFromType transferToOrFrom){
         this.transferToOrFrom = transferToOrFrom;
+    }
+
+    public void increaseTransactionCounter(){
+        this.transactionCounter++;
     }
 
     @Override

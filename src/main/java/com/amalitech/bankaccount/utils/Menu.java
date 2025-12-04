@@ -21,7 +21,7 @@ public class Menu implements Transactable {
     static String validNumRange = "Select type (1-2): ";
     TransactionManager transactionManager;
     Account accountSelectedForTransaction;
-    Account transferAccount;
+    Account recipientAccount;
     
     public void intro() {
 
@@ -119,7 +119,7 @@ public class Menu implements Transactable {
     }
 
     public void performTransaction(List<Account> accounts, TransactionManager transactionManager){
-        Account transferAcc;
+        Account recipientAccNum;
         this.transactionManager = transactionManager;
         IO.println("""
                 
@@ -146,7 +146,7 @@ public class Menu implements Transactable {
         transactionType = this.transactionType();
 
         if (TransactionType.TRANSFER == transactionType){
-            transferAcc = getAccountSelectedForTransaction(accounts, "Enter Recipient Account Number: ", """
+            recipientAccNum = getAccountSelectedForTransaction(accounts, "Enter Recipient Account Number: ", """
                     Please provide a valid recipient account number!
                     
                     Example format:
@@ -156,7 +156,24 @@ public class Menu implements Transactable {
                     ACC00120
                     """);
 
-            this.transferAccount = transferAcc;
+            this.recipientAccount = recipientAccNum;
+
+            while(recipientAccNum == this.accountSelectedForTransaction){
+                IO.println("Sender and recipient account must not be the same!");
+
+                recipientAccNum = getAccountSelectedForTransaction(accounts, "Enter Recipient Account Number: ", """
+                    Please provide a valid recipient account number!
+                    
+                    Example format:
+                    ACC001
+                    ACC002
+                    ACC0010
+                    ACC00120
+                    """);
+            }
+
+            this.recipientAccount = recipientAccNum;
+
         }else{
 
             IO.println("""
@@ -176,7 +193,7 @@ public class Menu implements Transactable {
             transactionAmount = this.acceptDoubleInputValue("Enter amount: $", "Please provide a valid amount");
 
 
-            new TransactionManager().previewTransactionConfirmation(this.accountSelectedForTransaction, transactionType, transactionAmount);
+            new TransactionManager().previewTransactionConfirmation(this.accountSelectedForTransaction, transactionType, transactionAmount, transactionManager, this.accountSelectedForTransaction.getAccountNumber());
 
             yesOrNo = this.promptValidYesOrNo();
 
@@ -246,7 +263,7 @@ public class Menu implements Transactable {
                 3. Transfer
                 """);
 
-        input = new InputValidationHelper(validNumRange, validNumberMsg, "").validatedIntInputValueWithRange(1, 3);
+        input = new InputValidationHelper("Select type (1-3):", validNumberMsg, "").validatedIntInputValueWithRange(1, 3);
 
         if(input == 1) return TransactionType.DEPOSIT;
         if(input == 2) return TransactionType.WITHDRAWAL;
@@ -302,7 +319,10 @@ public class Menu implements Transactable {
     @Override
     public boolean processTransaction(double transactionAmount, String transactionType) throws IllegalArgumentException{
         Transaction transaction;
-        Transaction transfer;
+        Transaction recipient;
+        // Collect all the transactions specific to an account number
+        List<Transaction> userPerformingOperationTransactions = TransactionManager.getAllTransactions(this.accountSelectedForTransaction.getAccountNumber(), this.transactionManager.getTransactions());
+
 
         if(transactionType.equals(TransactionType.DEPOSIT.getDescription())) {
             this.accountSelectedForTransaction.deposit(transactionAmount);
@@ -312,16 +332,21 @@ public class Menu implements Transactable {
 
             // Transfer to recipient account
             if(transactionType.equals(TransactionType.TRANSFER.getDescription())){
-                this.transferAccount.deposit(transactionAmount);
-                transfer = new Transaction(this.transferAccount.getAccountNumber(), transactionAmount, this.transferAccount.getAccountBalance());
-                transfer.setType(TransactionType.TRANSFER.getDescription());
-                this.transactionManager.addTransaction(transfer);
-                transfer.setTransferToOrFrom(TransferToOrFromType.TO);
+                List<Transaction> userRecipientTransactions = TransactionManager.getAllTransactions(this.recipientAccount.getAccountNumber(), this.transactionManager.getTransactions());
+
+                this.recipientAccount.deposit(transactionAmount);
+                recipient = new Transaction(this.recipientAccount.getAccountNumber(), transactionAmount, this.recipientAccount.getAccountBalance());
+                recipient.setType(TransactionType.TRANSFER.getDescription());
+                recipient.generateTransactionId(userRecipientTransactions.size() + 1);
+                this.transactionManager.addTransaction(recipient);
+                recipient.setTransferToOrFrom(TransferToOrFromType.TO);
             }
         }
 
         transaction = new Transaction(this.accountSelectedForTransaction.getAccountNumber(), transactionAmount, this.accountSelectedForTransaction.getAccountBalance());
+
         transaction.setType(transactionType);
+        transaction.generateTransactionId(userPerformingOperationTransactions.size() + 1);
         this.transactionManager.addTransaction(transaction);
 
         if(transactionType.equals(TransactionType.TRANSFER.getDescription())){
@@ -329,7 +354,6 @@ public class Menu implements Transactable {
         }
 
         return true;
-
     }
 
     public char promptValidYesOrNo(){
