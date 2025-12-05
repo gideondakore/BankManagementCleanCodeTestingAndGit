@@ -1,5 +1,9 @@
 package com.amalitech.bankaccount.account;
 
+import com.amalitech.bankaccount.customer.Customer;
+import com.amalitech.bankaccount.customer.RegularCustomer;
+import com.amalitech.bankaccount.exceptions.InsufficientFundsException;
+import com.amalitech.bankaccount.exceptions.InvalidAmountException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,13 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
 
+    private Customer customer;
     @BeforeEach
     void setUp() {
-
+        customer  = new RegularCustomer("Gideon", 23, "+233-559-372538", "Bomso, Kumasi");
     }
 
     @AfterEach
     void tearDown() {
+        IO.println("Finish test...");
     }
 
     @Test
@@ -58,11 +64,34 @@ class AccountTest {
     }
 
     @Test
-    void deposit() {
+    void depositNegativeFund() {
+        var acc = new SavingsAccount(customer);
+        assertThrows(InvalidAmountException.class, () -> {
+            acc.withdrawal(-2);
+        });
     }
 
     @Test
-    void withdrawal() {
-        var acc = new
+    void depositZeroFund() {
+        var acc = new SavingsAccount(customer);
+        assertThrows(InvalidAmountException.class, () -> {
+            acc.withdrawal(0);
+        });
+    }
+
+    @Test
+    void withdrawalNegativeAmount() {
+        var acc = new SavingsAccount(customer);
+        assertThrows(InvalidAmountException.class, () -> {
+            acc.withdrawal(-2);
+        });
+    }
+
+    @Test
+    void withdrawalInsufficientFunds() {
+        var acc = new SavingsAccount(customer);
+        assertThrows(InsufficientFundsException.class, () -> {
+            acc.withdrawal(20000);
+        });
     }
 }
