@@ -2,6 +2,9 @@ package com.amalitech.bankaccount.account;
 
 import com.amalitech.bankaccount.customer.Customer;
 import com.amalitech.bankaccount.enums.AccountType;
+import com.amalitech.bankaccount.exceptions.InsufficientFundsException;
+import com.amalitech.bankaccount.exceptions.InvalidAmountException;
+import com.amalitech.bankaccount.exceptions.OverdraftExceededException;
 import com.amalitech.bankaccount.interfaces.DisplayAccountDetails;
 
 
@@ -129,7 +132,7 @@ public abstract class Account implements DisplayAccountDetails {
      * @param amount
      * @throws IllegalArgumentException
      */
-    public void withdrawal(double amount) throws IllegalArgumentException {
+    public void withdrawal(double amount) throws InvalidAmountException, InsufficientFundsException, OverdraftExceededException {
         this.balance -= amount;
     }
 

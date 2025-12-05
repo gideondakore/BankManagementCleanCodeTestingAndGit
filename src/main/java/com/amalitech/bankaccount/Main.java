@@ -35,7 +35,12 @@ public class Main {
             int input = menu.getChoice();
 
             if (input == 5) {
-                IO.println("Application exited successfully...");
+                IO.println("""
+                        
+                        Thank you for using the Bank Management System!
+                        All data saved in memory. Remember to commit your lastest changes to Git!
+                        Goodbye!
+                        """);
                 break;
             }
 
