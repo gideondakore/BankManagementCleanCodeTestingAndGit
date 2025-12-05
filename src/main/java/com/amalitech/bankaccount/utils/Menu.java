@@ -17,13 +17,28 @@ import java.util.Scanner;
 
 public class Menu implements Transactable {
     int choice;
-    static String validNumberMsg = "Please enter a valid number and must be 1 or 2";
-    static String validNumRange = "Select type (1-2): ";
+    static String validNumberErrMsg = "Please enter a valid number and must be 1 or 2";
+    static String validNumRangeMsg = "Select type (1-2): ";
     TransactionManager transactionManager;
     Account accountSelectedForTransaction;
     Account recipientAccount;
     
     public void intro() {
+//        String introFormattedStr = """
+//                --------------------------------------------
+//                --------------------------------------------
+//                |                                          |
+//
+//                |     BANK ACCOUNT MANAGEMENT - MAIN MENU  |                                 |
+//                --------------------------------------------
+//                --------------------------------------------
+//
+//                1. Create Account
+//                2. View Account
+//                3. Process Transaction
+//                4. View Transaction History
+//                5. Exit
+//                """;
 
         String introFormattedStr = """
                 --------------------------------------------
@@ -34,10 +49,10 @@ public class Menu implements Transactable {
                 --------------------------------------------
                 --------------------------------------------
                 
-                1. Create Account
-                2. View Account
-                3. Process Transaction
-                4. View Transaction History
+                1. Manage Account
+                2. Perform Transaction
+                3. Generate Account Statement
+                4. Run Tests
                 5. Exit
                 """;
 
@@ -45,7 +60,7 @@ public class Menu implements Transactable {
 
         while (true){
             try{
-               this.choice = this.receiveChoice();
+               this.choice = receiveChoice(1, 5);
                 break;
             }catch (InputMismatchException _){
                 IO.println("Please provide a valid input. Input must be only numbers from 1-5");
@@ -63,19 +78,16 @@ public class Menu implements Transactable {
         return choice;
     }
 
-    private int receiveChoice() throws InputMismatchException {
+    private static int receiveChoice(int lowerBound, int upperBound) throws InputMismatchException {
         int input;
         Scanner scanner = new Scanner(System.in);
         IO.print("Enter choice: ");
         input = scanner.nextInt();
 
-        if(input > 5 || input < 1) {
+        if(input > upperBound || input < lowerBound) {
             throw new InputMismatchException();
         }
-
         return input;
-
-
     }
 
     public CustomerRecords createAccount() {
@@ -227,7 +239,7 @@ public class Menu implements Transactable {
                 2. Premium Customer (Enhanced benefits, min balance $10,000)
                 """);
 
-        input = InputValidationHelper.validatedIntInputValueWithRange(1, 2, validNumRange, validNumberMsg, "");
+        input = InputValidationHelper.validatedIntInputValueWithRange(1, 2, validNumRangeMsg, validNumberErrMsg);
 
         if(input == 1) return CustomerType.REGULAR;
 
@@ -245,7 +257,7 @@ public class Menu implements Transactable {
                 2. Checking Account (Overdraft: $1,000, Monthly Fee: $10)
                 """);
 
-        input = InputValidationHelper.validatedIntInputValueWithRange(1, 2, validNumRange, validNumberMsg, "");
+        input = InputValidationHelper.validatedIntInputValueWithRange(1, 2, validNumRangeMsg, validNumberErrMsg);
 
         if(input == 1) return AccountType.SAVINGS;
 
@@ -263,7 +275,7 @@ public class Menu implements Transactable {
                 3. Transfer
                 """);
 
-        input = InputValidationHelper.validatedIntInputValueWithRange(1, 3, "Select type (1-3):", validNumberMsg, "");
+        input = InputValidationHelper.validatedIntInputValueWithRange(1, 3, "Select type (1-3):", validNumberErrMsg);
 
         if(input == 1) return TransactionType.DEPOSIT;
         if(input == 2) return TransactionType.WITHDRAWAL;
@@ -275,7 +287,7 @@ public class Menu implements Transactable {
         double input;
 
         while (true){
-            input = InputValidationHelper.validatedDoubleInputPositiveValue(msg, errMsg, "");
+            input = InputValidationHelper.validatedDoubleInputPositiveValue(msg, errMsg);
             if(input > 0){
                 break;
             }else IO.println("Amount must be greater than zero!");

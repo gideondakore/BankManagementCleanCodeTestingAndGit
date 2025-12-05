@@ -86,7 +86,7 @@ public record InputValidationHelper() {
         return input;
     }
 
-    public static int validatedIntInputValueWithRange(int lowerBound, int upperBound, String msg, String errMsg, String regex) {
+    public static int validatedIntInputValueWithRange(int lowerBound, int upperBound, String msg, String errMsg) {
         Scanner scanner = new Scanner(System.in);
         int input;
 
@@ -112,7 +112,7 @@ public record InputValidationHelper() {
         return input;
     }
 
-    public static int validatedIntInputPositiveValue(String msg, String errMsg, String regex) {
+    public static int validatedIntInputPositiveValue(String msg, String errMsg) {
         Scanner scanner = new Scanner(System.in);
         int input;
 
@@ -138,7 +138,7 @@ public record InputValidationHelper() {
         return input;
     }
 
-    public static double validatedDoubleInputPositiveValue(String msg, String errMsg, String regex) {
+    public static double validatedDoubleInputPositiveValue(String msg, String errMsg) {
         Scanner scanner = new Scanner(System.in);
         double input;
 

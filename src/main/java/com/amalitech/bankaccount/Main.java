@@ -20,13 +20,13 @@ public class Main {
     private static final String INITIAL_DEPOSIT_MSG = "Enter initial deposit amount: $";
     private static final String INITIAL_DEPOSIT_ERR_MSG = "Please provide a valid amount!";
 
+    static TransactionManager transactionManager = new TransactionManager();
+    static Account[] mockAccounts = Main.populateWithCustomAccount(transactionManager);
+    static AccountManager accountManager = new AccountManager(mockAccounts);
+    static Menu menu = new Menu();
+
+
     public static void main(String[] args) {
-        Menu menu = new Menu();
-
-        TransactionManager transactionManager = new TransactionManager();
-        Account[] mockAccounts = Main.populateWithCustomAccount(transactionManager);
-        AccountManager accountManager = new AccountManager(mockAccounts);
-
 
         while (true) {
 
@@ -42,9 +42,9 @@ public class Main {
 
 
             switch (input) {
-                case 1 -> handleCreateAccount(menu, accountManager, transactionManager);
+                case 1 -> manageAccount();
                 case 2 -> accountManager.viewAllAccounts();
-                case 3 -> menu.performTransaction(accountManager.getAccounts(), transactionManager);
+                case 3 -> Main.performTransaction();
                 case 4 -> menu.viewTransactionHistory(accountManager.getAccounts(), transactionManager);
                 default -> IO.println("Oops! Incorrect choice,please try again.");
             }
@@ -55,7 +55,6 @@ public class Main {
 
     private static void handleCreateAccount(Menu menu, AccountManager accountManager, TransactionManager transactionManager) {
         CustomerRecords info = menu.createAccount();
-
         CustomerType customerType = menu.customerType();
         AccountType accountType = menu.accountType();
 
@@ -135,9 +134,39 @@ public class Main {
 
     }
 
-    private static int selectManageAccountAction(){
+    private static void manageAccount(){
+        int input;
 
-//        int input = InputValidationHelper.validatedIntInputValueWithRange();
+        input = InputValidationHelper.validatedIntInputValueWithRange(1, 2, """                
+                1. Create Account
+                2. View Account
+                
+                Select action:
+                
+                """, "Please provide a valid input. Input must be only numbers from 1-2");
+
+        switch (input){
+            case 1 -> handleCreateAccount(menu, Main.accountManager, Main.transactionManager);
+            case 2 -> accountManager.viewAllAccounts();
+            default -> IO.println("Oops! Wrong input choice selected");
+        }
+
+    }
+
+    private static void performTransaction(){
+        int input;
+        input = InputValidationHelper.validatedIntInputValueWithRange(1, 2, """                
+                1. Process Transaction
+                2. View Transaction History
+                
+                Select action:
+                """, "Please provide a valid input. Input must be only numbers from 1-2");
+
+        switch (input){
+            case 1 -> menu.performTransaction(accountManager.getAccounts(), transactionManager);
+            case 2 -> menu.viewTransactionHistory(accountManager.getAccounts(), transactionManager);
+            default -> IO.println("Oops! Wrong input choice selected");
+        }
     }
 
 }
