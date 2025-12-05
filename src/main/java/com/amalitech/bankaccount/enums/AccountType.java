@@ -11,6 +11,10 @@ public enum AccountType {
         this.description = description;
     }
 
+    /**
+     *
+     * @return Account type enum string literal
+     */
     public String getDescription(){
         return this.description;
     }

@@ -11,6 +11,10 @@ public enum CustomerType {
         this.description = description;
     }
 
+    /**
+     *
+     * @return Customer type enum string literal
+     */
     public String getDescription(){
         return this.description;
     }

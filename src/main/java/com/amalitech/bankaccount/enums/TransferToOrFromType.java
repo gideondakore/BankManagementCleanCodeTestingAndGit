@@ -8,6 +8,10 @@ public enum TransferToOrFromType {
 
     TransferToOrFromType(String description) {this.description = description;}
 
+    /**
+     *
+     * @return Transaction type flags for recording transaction from or to account enum string literal
+     */
     public String getDescription(){
         return this.description;
     }

@@ -9,6 +9,10 @@ public enum TransactionType {
 
     TransactionType(String description) {this.description = description;}
 
+    /**
+     *
+     * @return Transaction type enum string literal
+     */
     public String getDescription(){
         return this.description;
     }
