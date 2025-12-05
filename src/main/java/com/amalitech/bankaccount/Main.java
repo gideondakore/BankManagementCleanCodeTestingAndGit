@@ -188,4 +188,8 @@ public class Main {
         }
     }
 
+    public int SimpleCalculator(int a, int b){
+        return a + b;
+    }
+
 }
