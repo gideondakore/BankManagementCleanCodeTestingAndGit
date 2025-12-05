@@ -2,6 +2,7 @@ package com.amalitech.bankaccount.utils;
 
 
 import com.amalitech.bankaccount.account.Account;
+import com.amalitech.bankaccount.account.AccountManager;
 import com.amalitech.bankaccount.enums.AccountType;
 import com.amalitech.bankaccount.enums.CustomerType;
 import com.amalitech.bankaccount.enums.TransactionType;
@@ -21,7 +22,7 @@ public class Menu implements Transactable {
     static String validNumRangeMsg = "Select type (1-2): ";
     static String enterAccNumMsg = "Enter Account Number: ";
     static String validAccNumRegex = "^ACC00\\d+$";
-    static String validAccNumMsg = """
+    static String invalidAccNumMsg = """
                     Please provide a valid account number!
                     
                     Example format:
@@ -142,35 +143,19 @@ public class Menu implements Transactable {
 
 
 
-        this.accountSelectedForTransaction = getAccountSelectedForTransaction(accounts, enterAccNumMsg, validAccNumMsg);
+        this.accountSelectedForTransaction = getAccountSelectedForTransaction(accounts, enterAccNumMsg, invalidAccNumMsg);
 
         transactionType = this.transactionType();
 
         if (TransactionType.TRANSFER == transactionType){
-            recipientAccNum = getAccountSelectedForTransaction(accounts, "Enter Recipient Account Number: ", """
-                    Please provide a valid recipient account number!
-                    
-                    Example format:
-                    ACC001
-                    ACC002
-                    ACC0010
-                    ACC00120
-                    """);
+            recipientAccNum = getAccountSelectedForTransaction(accounts, "Enter Recipient Account Number: ", invalidAccNumMsg);
 
             this.recipientAccount = recipientAccNum;
 
             while(recipientAccNum == this.accountSelectedForTransaction){
                 IO.println("Sender and recipient account must not be the same!");
 
-                recipientAccNum = getAccountSelectedForTransaction(accounts, "Enter Recipient Account Number: ", """
-                    Please provide a valid recipient account number!
-                    
-                    Example format:
-                    ACC001
-                    ACC002
-                    ACC0010
-                    ACC00120
-                    """);
+                recipientAccNum = getAccountSelectedForTransaction(accounts, "Enter Recipient Account Number: ", invalidAccNumMsg);
             }
 
             this.recipientAccount = recipientAccNum;
@@ -279,7 +264,7 @@ public class Menu implements Transactable {
             input = InputValidationHelper.validatedDoubleInputPositiveValue(msg, errMsg);
             if(input > 0){
                 break;
-            }else IO.println("Amount must be greater than zero!");
+            }else IO.println("❌ Error: Invalid amount. Amount must be greater than 0.");
         }
 
         return input;
@@ -294,25 +279,6 @@ public class Menu implements Transactable {
             }
 
             scanner.nextLine();
-    }
-
-    public static Account getAccountForTransaction(List<Account> account, String accNum){
-        Account selectedAcc = null;
-
-        for(Account acc: account){
-            if(acc.getAccountNumber().equals(accNum)){
-                selectedAcc = acc;
-                break;
-            }
-        }
-
-        if(selectedAcc == null){
-            IO.println("Account with the account number " + accNum + " not found! Please check your account number and try again.");
-            return null;
-        }
-
-        return selectedAcc;
-
     }
 
 
@@ -383,9 +349,9 @@ public class Menu implements Transactable {
                 """);
 
         do {
-            accNumber = InputValidationHelper.validatedStringInputValue("Enter Account Number: ", validAccNumMsg, validAccNumRegex);
+            accNumber = InputValidationHelper.validatedStringInputValue("Enter Account Number: ", invalidAccNumMsg, validAccNumRegex);
 
-            selectedAcc = Menu.getAccountForTransaction(account, accNumber);
+            selectedAcc = AccountManager.getAccountForTransaction(account, accNumber);
 
         } while (selectedAcc == null);
 
@@ -412,9 +378,9 @@ public class Menu implements Transactable {
                 """);
 
         do {
-            accNumber = InputValidationHelper.validatedStringInputValue(enterAccNumMsg, validAccNumMsg, validAccNumRegex);
+            accNumber = InputValidationHelper.validatedStringInputValue(enterAccNumMsg, invalidAccNumMsg, validAccNumRegex);
 
-            selectedAcc = Menu.getAccountForTransaction(account, accNumber);
+            selectedAcc = AccountManager.getAccountForTransaction(account, accNumber);
 
         } while (selectedAcc == null);
 
@@ -466,7 +432,7 @@ public class Menu implements Transactable {
         do {
             accNumber = InputValidationHelper.validatedStringInputValue(msg, errMsg, validAccNumRegex);
 
-            selectedAcc = Menu.getAccountForTransaction(accounts, accNumber);
+            selectedAcc = AccountManager.getAccountForTransaction(accounts, accNumber);
 
         } while (selectedAcc == null);
 

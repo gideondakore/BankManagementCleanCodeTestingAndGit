@@ -3,6 +3,8 @@ package com.amalitech.bankaccount.account;
 import com.amalitech.bankaccount.customer.Customer;
 import com.amalitech.bankaccount.enums.AccountType;
 
+import java.text.DecimalFormat;
+
 public class SavingsAccount extends Account{
     private final double interestRate;
     private final double minimumBalance;
@@ -40,7 +42,8 @@ public class SavingsAccount extends Account{
         }
 
         if((this.getAccountBalance() - amount) < 0 || (this.getAccountBalance() - amount) < minimumBalance){
-            throw new IllegalArgumentException("You have insufficient amount.");
+            DecimalFormat df =  new DecimalFormat("#,###.00");
+            throw new IllegalArgumentException("❌ Transaction Failed: Insufficient funds. Current balance: $" + df.format(this.getAccountBalance()));
         }
 
         super.withdrawal(amount);

@@ -1,10 +1,5 @@
 package com.amalitech.bankaccount.account;
 
-import com.amalitech.bankaccount.transaction.Transaction;
-import com.amalitech.bankaccount.transaction.TransactionManager;
-import com.amalitech.bankaccount.utils.InputValidationHelper;
-import com.amalitech.bankaccount.utils.Menu;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -119,40 +114,24 @@ public class AccountManager {
         return str.toString();
     }
 
-    public void getAccountStatement(String accNumber, List<Transaction> transactions, List<Account> accountstList){
-        Account selectedAcc;
-        List<Transaction> newTransactions = TransactionManager.getAllTransactions(accNumber, transactions);
 
-        IO.println("""
-                GENERATE ACCOUNT STATEMENT
-                -----------------------------------------------------
-                """);
+    public static Account getAccountForTransaction(List<Account> account, String accNum){
+        Account selectedAcc = null;
 
-        accNumber = InputValidationHelper.validatedStringInputValue("Enter Account Number: ", """
-                    Please provide a valid account number!
-                    
-                    Example format:
-                    ACC001
-                    ACC002
-                    ACC0010
-                    ACC00120
-                    """, "^ACC00\\d+$");
+        for(Account acc: account){
+            if(acc.getAccountNumber().equals(accNum)){
+                selectedAcc = acc;
+                break;
+            }
+        }
 
-        selectedAcc = Menu.getAccountForTransaction(accountstList, accNumber);
+        if(selectedAcc == null){
 
-        IO.println("""
-                
-                Account: %s (%s)
-                Current Balance: %,.2f
-                """);
+            IO.println("❌ Error: Account" + "'" + accNum + "'" + " not found. Please check the account number and try again.");
+            return null;
+        }
 
-        IO.println("""
-                Transactions:
-                -------------------------------------------------------------------
-                
-                """);
-
-
+        return selectedAcc;
 
     }
 }
