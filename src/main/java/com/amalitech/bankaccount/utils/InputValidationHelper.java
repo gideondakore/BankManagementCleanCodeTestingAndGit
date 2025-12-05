@@ -3,15 +3,15 @@ package com.amalitech.bankaccount.utils;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public record InputValidationHelper(String msg, String errMsg, String regex) {
+public record InputValidationHelper() {
 
-    public String validatedStringInputValue() {
+    public static String validatedStringInputValue(String msg, String errMsg, String regex) {
         Scanner scanner = new Scanner(System.in);
         String input;
 
-        Pattern pattern = Pattern.compile(this.regex());
+        Pattern pattern = Pattern.compile(regex);
         while (true) {
-            IO.print(this.msg);
+            IO.print(msg);
             String line = scanner.nextLine();
             if (pattern.matcher(line).matches()) {
                 input = line;
@@ -25,14 +25,14 @@ public record InputValidationHelper(String msg, String errMsg, String regex) {
     }
 
 
-    public int validatedIntInputValue() {
+    public static int validatedIntInputValue(String msg, String errMsg, String regex) {
         Scanner scanner = new Scanner(System.in);
         int input;
 
-        Pattern pattern = Pattern.compile(this.regex);
+        Pattern pattern = Pattern.compile(regex);
 
         while (true) {
-            IO.print(this.msg);
+            IO.print(msg);
 
             String line = scanner.nextLine();
 
@@ -48,13 +48,13 @@ public record InputValidationHelper(String msg, String errMsg, String regex) {
     }
 
 
-    public double validatedDoubleInputValue() {
+    public static double validatedDoubleInputValue(String msg, String errMsg, String regex) {
         Scanner scanner = new Scanner(System.in);
         double input;
 
-        Pattern pattern = Pattern.compile(this.regex);
+        Pattern pattern = Pattern.compile(regex);
         while (true) {
-            IO.print(this.msg);
+            IO.print(msg);
             String line = scanner.nextLine();
             if (pattern.matcher(line).matches()) {
                 input = Double.parseDouble(line);
@@ -67,13 +67,13 @@ public record InputValidationHelper(String msg, String errMsg, String regex) {
         return input;
     }
 
-    public char validatedCharInputValue() {
+    public static char validatedCharInputValue(String msg, String errMsg, String regex) {
         Scanner scanner = new Scanner(System.in);
         char input;
 
-        Pattern pattern = Pattern.compile(this.regex);
+        Pattern pattern = Pattern.compile(regex);
         while (true) {
-            IO.print(this.msg);
+            IO.print(msg);
             String line = scanner.nextLine();
             if (pattern.matcher(line).matches()) {
                 input = line.charAt(0);
@@ -86,12 +86,12 @@ public record InputValidationHelper(String msg, String errMsg, String regex) {
         return input;
     }
 
-    public int validatedIntInputValueWithRange(int lowerBound, int upperBound) {
+    public static int validatedIntInputValueWithRange(int lowerBound, int upperBound, String msg, String errMsg, String regex) {
         Scanner scanner = new Scanner(System.in);
         int input;
 
         while (true) {
-            IO.print(this.msg);
+            IO.print(msg);
 
             if(scanner.hasNextInt()){
                 input = scanner.nextInt();
@@ -103,7 +103,7 @@ public record InputValidationHelper(String msg, String errMsg, String regex) {
                     scanner.nextLine();
                 }
             }else {
-                IO.println(this.errMsg);
+                IO.println(errMsg);
                 scanner.nextLine();
             }
 
@@ -112,12 +112,12 @@ public record InputValidationHelper(String msg, String errMsg, String regex) {
         return input;
     }
 
-    public int validatedIntInputPositiveValue() {
+    public static int validatedIntInputPositiveValue(String msg, String errMsg, String regex) {
         Scanner scanner = new Scanner(System.in);
         int input;
 
         while (true) {
-            IO.print(this.msg);
+            IO.print(msg);
 
             if(scanner.hasNextInt()){
                 input = scanner.nextInt();
@@ -129,7 +129,7 @@ public record InputValidationHelper(String msg, String errMsg, String regex) {
                     scanner.nextLine();
                 }
             }else {
-                IO.println(this.errMsg);
+                IO.println(errMsg);
                 scanner.nextLine();
             }
 
@@ -138,12 +138,12 @@ public record InputValidationHelper(String msg, String errMsg, String regex) {
         return input;
     }
 
-    public double validatedDoubleInputPositiveValue() {
+    public static double validatedDoubleInputPositiveValue(String msg, String errMsg, String regex) {
         Scanner scanner = new Scanner(System.in);
         double input;
 
         while (true) {
-            IO.print(this.msg);
+            IO.print(msg);
 
             if(scanner.hasNextDouble()){
                 input = scanner.nextDouble();
@@ -155,7 +155,7 @@ public record InputValidationHelper(String msg, String errMsg, String regex) {
                     scanner.nextLine();
                 }
             }else {
-                IO.println(this.errMsg);
+                IO.println(errMsg);
                 scanner.nextLine();
             }
 

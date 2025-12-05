@@ -6,6 +6,7 @@ import com.amalitech.bankaccount.enums.AccountType;
 import com.amalitech.bankaccount.enums.CustomerType;
 import com.amalitech.bankaccount.enums.TransactionType;
 import com.amalitech.bankaccount.transaction.Transaction;
+import com.amalitech.bankaccount.utils.InputValidationHelper;
 import com.amalitech.bankaccount.utils.Menu;
 import com.amalitech.bankaccount.records.CustomerRecords;
 import com.amalitech.bankaccount.transaction.TransactionManager;
@@ -37,6 +38,8 @@ public class Main {
                 IO.println("Application exited successfully...");
                 break;
             }
+
+
 
             switch (input) {
                 case 1 -> handleCreateAccount(menu, accountManager, transactionManager);
@@ -130,6 +133,11 @@ public class Main {
 
         return accsArr;
 
+    }
+
+    private static int selectManageAccountAction(){
+
+//        int input = InputValidationHelper.validatedIntInputValueWithRange();
     }
 
 }

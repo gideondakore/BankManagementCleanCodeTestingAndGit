@@ -89,7 +89,7 @@ public class Menu implements Transactable {
         String contact;
         String address;
 
-        name = new InputValidationHelper("Enter customer name: ", """
+        name = InputValidationHelper.validatedStringInputValue("Enter customer name: ", """
                 Please provide valid name!
                 
                 //Example valid name:
@@ -102,10 +102,10 @@ public class Menu implements Transactable {
                 "Mathis d'Arias" ✓
                 "Martin Luther King, Jr." ✓
                 "Tony Montana Prez Rodriguez DeJesus del Rosario Mercedes Pilar Martínez Molina Baeza" ✓
-                """, "^[A-ZÀ-ÿ][-,a-z.' ]+( [A-ZÀ-ÿ][-,a-z.' ]+)+$").validatedStringInputValue();
-        age = new InputValidationHelper("Enter customer age: ", "Please provide a valid age (1-120)!", "^(?:120|1[01][0-9]|[1-9][0-9]?)$").validatedIntInputValue();
-        contact = new InputValidationHelper("Enter customer contact (+1-555-7890): ", "Please provide valid phone number!", "\\+\\d{1,3}-\\d{3}-\\d{4,12}").validatedStringInputValue();
-        address = new InputValidationHelper("Enter customer address: ", """
+                """, "^[A-ZÀ-ÿ][-,a-z.' ]+( [A-ZÀ-ÿ][-,a-z.' ]+)+$");
+        age = InputValidationHelper.validatedIntInputValue("Enter customer age: ", "Please provide a valid age (1-120)!", "^(?:120|1[01][0-9]|[1-9][0-9]?)$");
+        contact = InputValidationHelper.validatedStringInputValue("Enter customer contact (+1-555-7890): ", "Please provide valid phone number!", "\\+\\d{1,3}-\\d{3}-\\d{4,12}");
+        address = InputValidationHelper.validatedStringInputValue("Enter customer address: ", """
                 Please provide a valid address!
                 
                 // Examples that match:
@@ -113,7 +113,7 @@ public class Menu implements Transactable {
                 // "45 Oak Ave., Apt. 2B"
                 // "12-34 Park Lane"
                 // "P.O. Box 456"
-                """, "^[a-zA-Z0-9\\s,.'\\-#]{5,100}$").validatedStringInputValue();
+                """, "^[a-zA-Z0-9\\s,.'\\-#]{5,100}$");
 
         return new CustomerRecords(name, age, contact, address);
     }
@@ -227,7 +227,7 @@ public class Menu implements Transactable {
                 2. Premium Customer (Enhanced benefits, min balance $10,000)
                 """);
 
-        input = new InputValidationHelper(validNumRange, validNumberMsg, "").validatedIntInputValueWithRange(1, 2);
+        input = InputValidationHelper.validatedIntInputValueWithRange(1, 2, validNumRange, validNumberMsg, "");
 
         if(input == 1) return CustomerType.REGULAR;
 
@@ -245,7 +245,7 @@ public class Menu implements Transactable {
                 2. Checking Account (Overdraft: $1,000, Monthly Fee: $10)
                 """);
 
-        input = new InputValidationHelper(validNumRange, validNumberMsg, "").validatedIntInputValueWithRange(1, 2);
+        input = InputValidationHelper.validatedIntInputValueWithRange(1, 2, validNumRange, validNumberMsg, "");
 
         if(input == 1) return AccountType.SAVINGS;
 
@@ -263,7 +263,7 @@ public class Menu implements Transactable {
                 3. Transfer
                 """);
 
-        input = new InputValidationHelper("Select type (1-3):", validNumberMsg, "").validatedIntInputValueWithRange(1, 3);
+        input = InputValidationHelper.validatedIntInputValueWithRange(1, 3, "Select type (1-3):", validNumberMsg, "");
 
         if(input == 1) return TransactionType.DEPOSIT;
         if(input == 2) return TransactionType.WITHDRAWAL;
@@ -275,7 +275,7 @@ public class Menu implements Transactable {
         double input;
 
         while (true){
-            input = new InputValidationHelper(msg, errMsg, "").validatedDoubleInputPositiveValue();
+            input = InputValidationHelper.validatedDoubleInputPositiveValue(msg, errMsg, "");
             if(input > 0){
                 break;
             }else IO.println("Amount must be greater than zero!");
@@ -359,7 +359,7 @@ public class Menu implements Transactable {
     public char promptValidYesOrNo(){
         char yesOrNo;
         while(true){
-            yesOrNo = new InputValidationHelper("Confirm transaction? (Y/N): ", "Please select (Y for Yes) or (N for No)", "^[YN]$").validatedCharInputValue();
+            yesOrNo = InputValidationHelper.validatedCharInputValue("Confirm transaction? (Y/N): ", "Please select (Y for Yes) or (N for No)", "^[YN]$");
 
             if((yesOrNo != 'Y') && (yesOrNo != 'N')){
                 IO.println("Wrong input provided. Select (Y for Yes) or (N for No)");
@@ -382,7 +382,7 @@ public class Menu implements Transactable {
                 """);
 
         do {
-            accNumber = new InputValidationHelper("Enter Account Number: ", """
+            accNumber = InputValidationHelper.validatedStringInputValue("Enter Account Number: ", """
                     Please provide a valid account number!
                     
                     Example format:
@@ -390,7 +390,7 @@ public class Menu implements Transactable {
                     ACC002
                     ACC0010
                     ACC00120
-                    """, "^ACC00\\d+$").validatedStringInputValue();
+                    """, "^ACC00\\d+$");
 
             selectedAcc = this.getAccountForTransaction(account, accNumber);
 
@@ -427,7 +427,7 @@ public class Menu implements Transactable {
         Account selectedAcc;
 
         do {
-            accNumber = new InputValidationHelper(msg, errMsg, "^ACC00\\d+$").validatedStringInputValue();
+            accNumber = InputValidationHelper.validatedStringInputValue(msg, errMsg, "^ACC00\\d+$");
 
             selectedAcc = this.getAccountForTransaction(accounts, accNumber);
 
