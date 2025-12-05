@@ -14,6 +14,10 @@ public class SavingsAccount extends Account{
     private final double interestRate;
     private final double minimumBalance;
 
+    /**
+     * Constructor for the Savings Account class
+     * @param customer
+     */
     public SavingsAccount(Customer customer){
         super(customer);
         this.interestRate = 0.035;
