@@ -59,6 +59,10 @@ public class SavingsAccount extends Account{
     @Override
     public void withdrawal(double amount) throws InvalidAmountException, InsufficientFundsException {
 
+        if(amount <= 0){
+            throw new InvalidAmountException("Amount must be greater than zero");
+        }
+
         if((this.getAccountBalance() - amount) < 0 || (this.getAccountBalance() - amount) < minimumBalance){
             DecimalFormat df =  new DecimalFormat("#,###.00");
             throw new InsufficientFundsException("❌ Transaction Failed: Insufficient funds. Current balance: $" + df.format(this.getAccountBalance()));
