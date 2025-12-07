@@ -51,6 +51,9 @@ This repository represents Week 2 enhancements focusing on clean code practices,
 
 ```
 BankAccount/
+├── docs
+│   └── documentation.docx            # Documentation for the project
+│   └── git-workflow.md               # Git workflow for the project
 ├── src/
 │   └── docs/
 │   └── images/
@@ -60,10 +63,11 @@ BankAccount/
 │               ├── account/          # Classes representing account types and data structures
 │               ├── customer/         # Classes representing customers types and data structures
 │               ├── enums/            # Enums for serving as a helpers for data types
-│               ├── utils/            # Helper utilities (validation, formatting, printables, etc.)
+│               ├── exceptions/       # Custom exception handlers
 │               ├── interfaces/       # Interface class for implementing abstraction
 │               ├── records/          # Records for collecting and transferring data among classes
 │               ├── transaction/      # Transaction classes
+│               ├── utils/            # Helper utilities (validation, formatting, printables, etc.)
 │               └── Main.java         # Application entry point with console menu
 │               └── TestRunner        # Test Runners
 ├── test/                             # JUnit test classes (e.g., AccountTest.java, TransactionManagerTest.java)
