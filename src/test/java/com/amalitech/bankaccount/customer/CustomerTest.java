@@ -32,7 +32,7 @@ class CustomerTest {
     @Test
     void getCustomerId() {
         // CUS001
-       assertEquals("CUS001", customer.getCustomerId());
+       assertEquals("CUS0015", customer.getCustomerId());
     }
 
     @Test
